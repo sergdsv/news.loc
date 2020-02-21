@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Manager;
 
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::paginate(5);
+        return view('pages.manager.categories.index', compact('categories'));
     }
 
     /**
@@ -24,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.manager.categories.create');
     }
 
     /**
@@ -33,9 +36,16 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+        $category = Category::make($request->only([
+                'title'
+            ]));
+        $category->saveOrFail();
+        return redirect()->route('manager.categories.index')->with(
+            'message',
+            "category create!"
+        );
     }
 
     /**
@@ -57,7 +67,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('pages.manager.categories.edit', compact('category'));
     }
 
     /**
@@ -67,9 +78,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $category->update($request->all());
+
+        return redirect()->route('manager.categories.index')->with(
+            'message',
+            "Category edit!"
+        );
     }
 
     /**
@@ -80,6 +98,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $category->delete();
+
+        return redirect()->route('manager.categories.index')->with(
+            'message',
+            "Post deleted!"
+        );
     }
 }

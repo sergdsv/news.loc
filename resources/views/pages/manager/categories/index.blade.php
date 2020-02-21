@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title','List news')
+@section('title','List categories')
 
 @section('content')
     @if(session()->has('message'))
@@ -9,39 +9,33 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">List posts</h3>
+            <h3 class="card-title">List categories</h3>
         </div>
         <div class="card-body">
             <div class="form-group">
-                <a href="{{ route('manager.post.create') }}" type="button" class="btn btn-primary btn-lg">Create</a>
-                <a href="{{ route('manager.categories.index') }}" type="button" class="btn btn-primary btn-lg">Categories</a>
-
+                <a href="{{ route('manager.category.create') }}" type="button" class="btn btn-primary btn-lg">Create</a>
             </div>
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Body</th>
-                    <th scope="col">Category</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($posts as $post)
+                @foreach($categories as $category)
                     <tr>
-                        <th scope="row">{{ $post->id }}</th>
-                        <td>{{ $post->title }}</td>
-                        <td>{{ $post->body }}</td>
-                        <td>{{ $post->category['title']}}</td>
+                        <th scope="row">{{ $category->id }}</th>
+                        <td>{{ $category->title }}</td>
                         <td>
                             <div class="row">
                                 <div class="form-group">
-                                    <a href="{{ route('manager.post.edit', ['id' => $post->id]) }}" type="button"
+                                    <a href="{{ route('manager.category.edit', ['id' => $category->id]) }}" type="button"
                                        class="btn btn-info btn-sm">Edit</a>
                                 </div>
                                 <div class="form-group">
-                                    <form action="{{ route('manager.post.destroy', ['id' => $post->id]) }}"
+                                    <form action="{{ route('manager.category.destroy', ['id' => $category->id]) }}"
                                           method="POST">
                                         @csrf
                                         @method('delete')
@@ -55,7 +49,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="deleteModalCenterTitle">Remove
-                                                            post</h5>
+                                                            category</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
@@ -83,7 +77,7 @@
 
                 </tbody>
             </table>
-            {{ $posts->links() }}
+            {{ $categories->links() }}
         </div>
     </div>
 

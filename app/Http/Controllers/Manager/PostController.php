@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manager;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(5);
         return view('pages.manager.posts.index', compact('posts'));
     }
 
@@ -28,7 +29,8 @@ class PostController extends Controller
     public function create()
     {
 
-        return view('pages.manager.posts.create');
+        $categories = Category::all();
+        return view('pages.manager.posts.create', compact('categories'));
     }
 
     /**
@@ -47,7 +49,6 @@ class PostController extends Controller
             ]
         ));
 
-        $post->category_id = '1';
         $post->saveOrFail();
 
         return redirect()->route('manager.posts.index')->with(
@@ -76,7 +77,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $categories = Category::all();
+        return view('pages.manager.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -86,9 +89,16 @@ class PostController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $post->update($request->all());
+
+        return redirect()->route('manager.posts.index')->with(
+            'message',
+            "Post edit!"
+        );
     }
 
     /**
@@ -99,6 +109,13 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $post->delete();
+
+        return redirect()->route('manager.posts.index')->with(
+            'message',
+            "Post deleted!"
+        );
     }
 }
