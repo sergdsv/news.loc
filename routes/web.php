@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+Route::get('/', 'PostController@index')->name('posts.index');
+Route::get('/post/{id}', 'PostController@show')->name('post.show');
+Route::get('/category/{id}', 'PostController@category')->name('posts.category');
+
 
 
 Route::group(['prefix' => 'manager', 'namespace' => 'Manager'], function (){

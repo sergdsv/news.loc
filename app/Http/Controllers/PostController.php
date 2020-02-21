@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $posts = Post::paginate(5);
+        $categories = Category::all();
+
+        return view('home', compact('posts', 'categories'));
+    }
+
+    public function category($id)
+    {
+        $posts = Post::where('category_id', $id)->paginate(5);
+        $categories = Category::all();
+
+        return view('home', compact('posts', 'categories'));
     }
 
     /**
@@ -44,9 +52,11 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        //
+        $posts = Post::where('id', $id)->paginate();
+        $categories = Category::all();
+        return view('home', compact('posts', 'categories'));
     }
 
     /**
