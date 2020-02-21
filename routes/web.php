@@ -12,5 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+
+Route::group(['prefix' => 'manager', 'namespace' => 'Manager'], function (){
+    Route::get('posts', 'PostController@index')->name('manager.posts.index');
+    Route::get('post/create', 'PostController@create')->name('manager.post.create');
+    Route::post('post', 'PostController@store')->name('manager.post.store');
+
+});
+
