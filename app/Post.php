@@ -18,4 +18,10 @@ class Post extends Model
     {
         return Str::limit($this->body, $limit, '...');
     }
+
+    public function scopeWithCategory($query, $limit_paginate = 15){
+        return $query->with('category')
+            ->orderBy('created_at', 'DESC')
+            ->paginate($limit_paginate);
+    }
 }

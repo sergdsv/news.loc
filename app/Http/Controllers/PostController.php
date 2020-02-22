@@ -11,7 +11,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'DESC')->paginate(5);
+        $posts = Post::withCategory(config('constants.home_page.limit_paginate'));
         $categories = Category::all();
 
         return view('home', compact('posts', 'categories'));
