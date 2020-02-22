@@ -32,50 +32,46 @@
                     <tr>
                         <th scope="row">{{ $post->id }}</th>
                         <td>{{ $post->title }}</td>
-                        <td>{{ $post->body }}</td>
+                        <td>{{ $post->shortBody(config('constants.posts.limit_body')) }}</td>
                         <td>{{ $post->category['title']}}</td>
                         <td>
-                            <div class="row">
-                                <div class="form-group">
-                                    <a href="{{ route('manager.post.edit', ['id' => $post->id]) }}" type="button"
-                                       class="btn btn-info btn-sm">Edit</a>
-                                </div>
-                                <div class="form-group">
-                                    <form action="{{ route('manager.post.destroy', ['id' => $post->id]) }}"
-                                          method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <button data-toggle="modal" data-target="#deleteModal" type="button"
-                                                class="btn btn-info btn-sm">delete
-                                        </button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                                             aria-labelledby="deleteReviewTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteModalCenterTitle">Remove
-                                                            post</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Are you sure you want to delete the entry?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">
-                                                            Cancel
-                                                        </button>
-                                                        <button type="submit" class="btn btn-primary">Delete</button>
-                                                    </div>
+                            <div class="form-inline">
+                                <a href="{{ route('manager.post.edit', ['id' => $post->id]) }}" type="button"
+                                   class="btn btn-info btn-sm mr-2">Edit</a>
+                                <form action="{{ route('manager.post.destroy', ['id' => $post->id]) }}"
+                                      method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button data-toggle="modal" data-target="#deleteModal" type="button"
+                                            class="btn btn-info btn-sm">delete
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="deleteReviewTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalCenterTitle">Remove
+                                                        post</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the entry?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">Delete</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
                         </td>
                     </tr>

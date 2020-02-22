@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $categoryIds = factory(App\Category::class, 10)->create()->pluck('id')->toArray();
+        factory(App\Post::class, 100)->create()->each(function($post) use ($categoryIds) {
+            $post->category_id = rand(1, count($categoryIds));
+            $post->save();
+        });
     }
 }

@@ -11,7 +11,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::paginate(5);
+        $posts = Post::orderBy('created_at', 'DESC')->paginate(5);
         $categories = Category::all();
 
         return view('home', compact('posts', 'categories'));
@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function category($id)
     {
-        $posts = Post::where('category_id', $id)->paginate(5);
+        $posts = Post::where('category_id', $id)->orderBy('created_at', 'DESC')->paginate(5);
         $categories = Category::all();
 
         return view('home', compact('posts', 'categories'));
@@ -54,9 +54,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('id', $id)->paginate();
+        $post = Post::findOrfail($id);
         $categories = Category::all();
-        return view('home', compact('posts', 'categories'));
+        return view('pages.posts.show', compact('post', 'categories'));
     }
 
     /**

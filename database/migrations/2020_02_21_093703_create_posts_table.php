@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('body');
-            $table->integer('category_id');
+            $table->integer('category_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

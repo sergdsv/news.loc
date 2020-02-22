@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -13,4 +14,8 @@ class Post extends Model
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
+    public function shortBody($limit)
+    {
+        return Str::limit($this->body, $limit, '...');
+    }
 }
